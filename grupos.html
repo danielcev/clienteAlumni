@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        
+    if(sessionStorage.getItem('token') != null){
+			var token = sessionStorage.getItem('token');
+		}else{
+			window.location.href="index.php";
+		}
+
+    
+	$(document).ready(function(){ 
+     listarGrupos();   
+    
+    
+    });  
+        
+        function listarGrupos(){
+		$.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/groups/groups.json",
+			    type: "GET",
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){
+                    
+                $("#listaGroup").html("");
+             
+			   if($("#listaGroup").html() == ""){
+                 
+                  $.each(response.data, function(i, group) { 
+                      
+                      $("#listaGroup").append("<li id='" + group.id + "'class='list-group-item'>" + group.name + " " + "<input type='button' name='delet' id='delet' onclick='deletGroup(" + group.id + ")' class='btn btn-danger' value='Delete'>" + "</li>");
+                        
+                        })
+                    }
+                }    
+            });
+        }
+
+
+    function añadirGrupo(){    
+        var name = $("#name").val();
+        $.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/groups/create.json",
+			    type: "POST",
+                data: { 
+                    'name': name,
+			    },
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){    
+                 listarGrupos();
+                }    
+        });
+        
+    }
+    
+    function deletGroup(id){
+       
+        $.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/groups/delete.json",
+			    type: "POST",
+                data: { 
+                    'id': id,
+			    },
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){    
+                 listarGrupos();
+                }    
+        }); 
+    }
+    function GoUsers(){
+		window.location.href = "welcome.html";
+	}
+    
+    </script>
+    <title>Groups</title>
+</head>
+<body>
+    <div class="groups container">
+
+    <h1>Grupos</h1>
+  <br>      
+       <h2>Añadir grupo</h2>
+        <input type="text" placeholder="name" name="name" id="name">
+        <button type="button" class="btn btn-primary" onclick="añadirGrupo()">Crear</button>
+        <br>
+        <br>
+        <ul class="list-group" id="listaGroup"></ul>
+        <br>
+        <br>
+        <button type="button" class="btn btn-primary" onclick="GoUsers()">Volver a usuarios</button>
+    
+	</div>
+</body>
+</html>

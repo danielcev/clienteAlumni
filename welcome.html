@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Users</title>
+	<meta charset="utf-8">
+
+	<!-- BOOTSTRAP -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript">
+
+		if(sessionStorage.getItem('token') != null){
+			var token = sessionStorage.getItem('token');
+		}else{
+			window.location.href="index.php";
+		}
+	
+	$(document).ready(function(){ 
+		$("#result").hide();
+		
+		mostrarUsuarios();
+        LlenarSelector();
+                        
+		$("#submit").on("click",function(e){
+
+			var email = $("#email").val();
+            var name  = $("#name").val();
+            var group  = $("#selectGroup").val();
+            var id_rol  = $("#selectRol").val();
+	        e.preventDefault();
+            
+			$.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/users/insertUser.json",
+			    type: "POST",
+			    data: {
+			    	'email' : email,
+                    'name' : name,
+                    'id_group' : group,
+                    'id_rol' : id_rol,
+			    },
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){
+                    
+			    	if(response.code == 200){
+			    		$("#result").removeClass("alert-danger");
+			    		$("#result").addClass("alert-success");
+			    		$("#listaUsuarios").html("");
+			    		mostrarUsuarios();
+                        
+
+			    	}else{
+			    		$("#result").removeClass("alert-success");
+			    		$("#result").addClass("alert-danger");
+			    	}
+
+			    	$("#result").html(response.message);
+			    	$("#result").show();
+
+			    }
+			    	
+			});
+		});
+        
+        $("#busqueda").on('input',function(e){
+            	
+            var busqueda = $("#busqueda").val();
+            
+            if(busqueda == ""){
+                mostrarUsuarios();
+               
+            }
+            
+            $.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/users/user.json",
+			    type: "GET",
+                
+                   data: {
+			    	'username' : busqueda,
+			    },
+                
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){
+
+                    $("#listaUsuarios").html("");
+			    	if($("#listaUsuarios").html() == ""){
+
+						$.each(response.data, function(i, user) {
+
+							var alertRegistered = "<span class='badge badge-pill badge-success'>Registrado</span>";
+							var alertNotRegistered = "<span class='badge badge-info'>No registrado</span>";
+                            
+                            
+                            var admin = "<span class='badge badge-primary'>Admin</span>";
+                            var profesores = "<span class='badge badge-primary'>teacher</span>";
+                            var alumnos = "<span class='badge badge-primary'>students</span>";
+                            var exalumnos = "<span class='badge badge-primary'>alumni</span>";
+                             var rol = "";
+                            
+                            switch(user.id_rol){
+                                case "1":
+                                    rol = admin;
+                                    break;
+                                    
+                                case "2":
+                                    rol = profesores;
+                                    break;
+                                    
+                                case "3":
+                                    rol = alumnos;
+                                    break;
+                                   
+                            }
+                            
+							var registrado = user.is_registered == 1 ? alertRegistered : alertNotRegistered;
+
+				    		$("#listaUsuarios").append("<li class='list-group-item'>" + user.email + " " + registrado + " " + rol + "</li>");
+						});
+
+					}
+
+			    }
+			});   
+        });
+        
+        
+	});
+
+        
+//    function editarRol(){
+//        
+//        $(selectMyRol).attr(user.rol);
+//        
+//        $("#edit").click(function(){
+//        	alert($("#edit").attr("user.rol"));
+//            $("#edit").attr("user.rol","nuevo valor")
+//    	});
+//    }
+
+	function mostrarUsuarios(){
+
+		$.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/users/allusers.json",
+			    type: "GET",
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){
+                    
+                    
+                    var id_rol  = $("#selectMyRol").val();
+                    
+                    $("#listaUsuarios").html("");
+
+			    	if($("#listaUsuarios").html() == ""){
+
+						$.each(response.data, function(i, user) {
+                            
+
+							var alertRegistered = "<span class='badge badge-pill badge-success'>Registrado</span>";
+							var alertNotRegistered = "<span class='badge badge-info'>No registrado</span>";
+                            
+                            var admin = "<span class='badge badge-primary'>Admin</span>";
+                            var profesores = "<span class='badge badge-primary'>teacher</span>";
+                            var alumnos = "<span class='badge badge-primary'>students</span>";
+                            var exalumnos = "<span class='badge badge-primary'>alumni</span>";
+                            
+                    
+                            var rol = "";
+                            
+                            switch(user.id_rol){
+                                case "1":
+                                    rol = admin;
+                                    break;
+                                    
+                                case "2":
+                                    rol = profesores;
+                                    break;
+                                    
+                                case "3":
+                                    rol = alumnos;
+                                    break;
+                                    
+                            }
+							var registrado = user.is_registered == 1 ? alertRegistered : alertNotRegistered;
+                            
+                            
+                            
+                            var selected = user.rol;
+                            var select = "<span><select id='" + user.id + "'><option value='1'>admin</option><option value='2' selected>profesores</option><option value='3'>alumnos</option></select></span>";
+                            
+				    		$("#listaUsuarios").append("<li id='" + user.id + "'class='list-group-item'>" + user.email + " " + registrado + " " +  rol + " <input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-danger' value='Borrar'> <input type='button' class='btn btn-info' name='edit' id='edit' onclick='editRol(" + user.id + ")' value='Editar'> <span>" + select + "</span></li>");
+                        
+						});
+
+					}
+
+			    }
+			});
+
+	}
+    
+        
+    function LlenarSelector(){
+        
+        console.log(token);
+
+		$.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/groups/groups.json",
+			    type: "GET",
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){
+                    
+                    
+                    
+                    $("#selectGroup").html("");
+
+			    	if($("#selectGroup").html() == ""){
+
+						$.each(response.data, function(i, group) {
+				    		$("#selectGroup").append("<option value='" + group.id + "'>" + group.name + "</option>");
+						});
+
+					}
+
+			    }
+            
+			});
+	}
+        
+    function deletUser(id){
+          
+        $.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/users/delete.json",
+			    type: "POST",
+			    data: {
+			    	'id' : id,
+			    },
+			    headers: { 'Authorization': token },
+			    dataType: 'json',
+			    success:function(response){
+
+			    	if(response.code == 200){
+			    		mostrarUsuarios();
+
+			    	}else{
+			    		$("#result").addClass("alert-danger");
+			    	}
+
+			    	$("#result").html(response.message);
+			    	$("#result").show();
+
+			    }
+			    	
+			});
+        
+    }
+
+        
+    function editRol(id){
+        
+        var rol = $("#" + id + " :selected").val();
+       
+
+        $.ajax({
+			    url:"http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/users/update.json",
+			    type: "POST",
+                data: {
+			    	'id_rol' : rol,
+                    'id': id,
+			    },
+                
+			    headers: { 'Authorization': token },
+			    dataType: 'json',                
+  
+			    success:function(response){
+                
+                alert("rol cambiado");
+                $.each(response.data, function(i, rol) {
+                    
+				var registrado = user.is_registered == 1 ? alertRegistered : alertNotRegistered;
+				$("#listaUsuarios").append("<li class='list-group-item'>" + user.email + " " + registrado + " " + rol + "</li>");       
+
+                        })
+                }  
+         });
+    }
+    
+    
+        
+        
+	function salir(){
+		sessionStorage.clear();
+		window.location.href = "index.php";
+	}
+    
+    function GoGroups(){
+		window.location.href = "grupos.html";
+	}
+	</script>
+
+</head>
+<body>
+
+	<div class="main container">
+
+		<h1>Pre-Registro de nuevos usuarios</h1>
+        
+
+		<form>
+			<div class="form-group">
+				<input type="text" placeholder="email" name="email" id="email">
+                <input type="text" placeholder="name" name="name" id="name">
+                <select id='selectGroup'>
+                            <option value="1"></option>                  
+                </select>
+                <select id='selectRol'>
+                            <option value="1">admin</option>
+                            <option value="2">profesores</option>
+                            <option value="3">alumnos</option>
+                           
+                </select>
+				<input type="submit" class="btn btn-primary" name="submit" value="Registrar" id="submit">
+			</div>
+		</form>
+
+		<p id="result" class="alert alert-success" style="display:none"></p>
+
+		<hr>
+        <input type="text" name="busqueda" id="busqueda">
+    
+		<ul class="list-group" id="listaUsuarios"></ul>
+        
+        <br>
+		<hr>
+        
+        <button type="button" class="btn btn-primary" onclick="GoGroups()">Ir al gestor de grupos</button>
+        <br>
+        <br>
+        <br>
+		<button type="button" class="btn btn-danger" onclick="salir()">Salir / Cerrar sesión</button>
+
+	</div>
+
+</body>
+</html>
