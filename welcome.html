@@ -12,11 +12,11 @@
 
 	<script type="text/javascript">
 
-		// if(sessionStorage.getItem('token') != null){
-		// 	var token = sessionStorage.getItem('token');
-		// }else{
-		// 	window.location.href="index.php";
-		// }
+		if(sessionStorage.getItem('token') != null){
+			var token = sessionStorage.getItem('token');
+		}else{
+			window.location.href="index.php";
+		}
 	
 	$(document).ready(function(){ 
 		$("#result").hide();
