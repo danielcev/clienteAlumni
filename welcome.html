@@ -94,12 +94,13 @@
 							var alertRegistered = "<span class='badge badge-pill badge-success'>Registrado</span>";
 							var alertNotRegistered = "<span class='badge badge-info'>No registrado</span>";
                             
-                            
                             var admin = "<span class='badge badge-primary'>Admin</span>";
                             var profesores = "<span class='badge badge-primary'>teacher</span>";
                             var alumnos = "<span class='badge badge-primary'>students</span>";
                             var exalumnos = "<span class='badge badge-primary'>alumni</span>";
-                             var rol = "";
+                            
+                    
+                            var rol = "";
                             
                             switch(user.id_rol){
                                 case "1":
@@ -113,12 +114,16 @@
                                 case "3":
                                     rol = alumnos;
                                     break;
-                                   
+                                    
                             }
-                            
 							var registrado = user.is_registered == 1 ? alertRegistered : alertNotRegistered;
-
-				    		$("#listaUsuarios").append("<li class='list-group-item'>" + user.email + " " + registrado + " " + rol + "</li>");
+                            
+                            
+                            
+                            var selected = user.rol;
+                            var select = "<span><select id='" + user.id + "'><option value='1'>admin</option><option value='2' selected>profesores</option><option value='3'>alumnos</option></select></span>";
+                            
+				    		$("#listaUsuarios").append("<li id='" + user.id + "'class='list-group-item'>" + user.email + " " + registrado + " " +  rol + " <input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-danger' value='Borrar'> <input type='button' class='btn btn-info' name='edit' id='edit' onclick='editRol(" + user.id + ")' value='Cambiar'><span>" + select + "</span></li>");
 						});
 
 					}
