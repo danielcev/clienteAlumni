@@ -12,11 +12,11 @@
 
 	<script type="text/javascript">
 
-		if(sessionStorage.getItem('token') != null){
-			var token = sessionStorage.getItem('token');
-		}else{
-			window.location.href="index.php";
-		}
+		// if(sessionStorage.getItem('token') != null){
+		// 	var token = sessionStorage.getItem('token');
+		// }else{
+		// 	window.location.href="index.php";
+		// }
 	
 	$(document).ready(function(){ 
 		$("#result").hide();
@@ -192,7 +192,7 @@
                             var selected = user.rol;
                             var select = "<span><select id='" + user.id + "'><option value='1'>admin</option><option value='2' selected>profesores</option><option value='3'>alumnos</option></select></span>";
                             
-				    		$("#listaUsuarios").append("<li id='" + user.id + "'class='list-group-item'>" + user.email + " " + registrado + " " +  rol + " <input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-danger' value='Borrar'> <input type='button' class='btn btn-info' name='edit' id='edit' onclick='editRol(" + user.id + ")' value='Editar'> <span>" + select + "</span></li>");
+				    		$("#listaUsuarios").append("<li id='" + user.id + "'class='list-group-item'>" + user.email + " " + registrado + " " +  rol + " <input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-danger' value='Borrar'> <input type='button' class='btn btn-info' name='edit' id='edit' onclick='editRol(" + user.id + ")' value='Cambiar'><span>" + select + "</span></li>");
                         
 						});
 
@@ -260,6 +260,7 @@
         
     }
 
+
         
     function editRol(id){
         
@@ -289,13 +290,17 @@
                 }  
          });
     }
-    
-    
-        
-        
-	function salir(){
+
+
+    function salir(){
 		sessionStorage.clear();
 		window.location.href = "index.php";
+	}
+    
+        
+	function refreshUser(){
+		sessionStorage.clear();
+		window.location.href = "welcome.html";
 	}
     
     function GoGroups(){
@@ -315,9 +320,15 @@
 			<div class="form-group">
 				<input type="text" placeholder="email" name="email" id="email">
                 <input type="text" placeholder="name" name="name" id="name">
+                <span>Grupo</span>
+
                 <select id='selectGroup'>
-                            <option value="1"></option>                  
+                
+                <span>
+                    <option value="1"></option>   
+                </span>              
                 </select>
+                <span>Rol</span>
                 <select id='selectRol'>
                             <option value="1">admin</option>
                             <option value="2">profesores</option>
