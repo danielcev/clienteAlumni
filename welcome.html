@@ -287,7 +287,10 @@
 				$("#listaUsuarios").append("<li class='list-group-item'>" + user.email + " " + registrado + " " + rol + "</li>");       
 
                         })
+                mostrarUsuarios();
                 }  
+                // actualizar lista
+
          });
     }
 
@@ -297,11 +300,6 @@
 		window.location.href = "index.php";
 	}
     
-        
-	function refreshUser(){
-		sessionStorage.clear();
-		window.location.href = "welcome.html";
-	}
     
     function GoGroups(){
 		window.location.href = "grupos.html";
