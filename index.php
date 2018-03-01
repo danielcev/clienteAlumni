@@ -10,6 +10,10 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+	<!-- Archivo js de configuración -->
+	<script type="text/javascript" src="config.js">
+	</script>
+
 	<script type="text/javascript">
 	
 	$(document).ready(function(){ 
@@ -23,7 +27,7 @@
 			var password = $("#password").val();
 
 	        e.preventDefault();
-			$.get("http://h2744356.stratoserver.net/solfamidas/alumniCEV/public/index.php/users/login.json", 
+			$.get(URL + "users/login.json", 
 				{'email': email,
 				 'password': password}, 
 				function(response){
