@@ -33,14 +33,16 @@
 			    headers: { 'Authorization': token },
 			    dataType: 'json',
 			    success:function(response){
+
+                    console.log(response);
                     
                 $("#listaGroup").html("");
              
 			   if($("#listaGroup").html() == ""){
                  
-                  $.each(response.data, function(i, group) { 
+                  $.each(response.data.groups, function(i, group) { 
                       
-                      $("#listaGroup").append("<li id='" + group.id + "'class='list-group-item'>" + group.name + " " + "<input type='button' name='delet' id='delet' onclick='deletGroup(" + group.id + ")' class='btn btn-danger' value='Delete'>" + "</li>");
+                      $("#listaGroup").append("<li id='" + group.id + "'class='list-group-item'>" + group.name + " " + "<input type='button' name='delet' id='delet' onclick='deletGroup(" + group.id + ")' class='btn btn-outline-danger' value='Delete'>" + "</li>");
                         
                         })
                     }
@@ -81,23 +83,59 @@
                 }    
         }); 
     }
+
     function GoUsers(){
 		window.location.href = "welcome.html";
 	}
+
+    function salir(){
+        sessionStorage.clear();
+        window.location.href = "index.php";
+    }
     
     </script>
     <title>Groups</title>
 </head>
 <body>
-    <div class="groups container">
+    <div class="groups main container">
 
-    <h1>Grupos</h1>
-  <br>      
-       <h2>Añadir grupo</h2>
-        <input type="text" placeholder="name" name="name" id="name">
-        <button type="button" class="btn btn-primary" onclick="añadirGrupo()">Crear</button>
+        <br>
+
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item" aria-current="page"><a href="welcome.html">Usuarios</a></li>
+                <li class="breadcrumb-item active">Grupos</li>
+            </ol>
+        </nav>
+
+        <h1 class="col-12">Grupos
+        <span style="float:right;" class="text-right">
+                <button type="button" class="btn btn-outline-danger" onclick="salir()">Salir / Cerrar sesión</button>
+            </span>
+        </h1>
+
+        <br> 
+
+        <h3 class="col-12">Añadir grupo</h3>
+
+        <!-- Name -->
+        <div class="input-group col-md-5">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><img width="20" src="img/group.png"/></span>
+            </div>
+
+            <input size="30" type="text" name="name" class="form-control" id="name" placeholder="Name" aria-label="Name" aria-describedby="basic-addon1">
+        </div>
+
+        <div class="input-group mt-3 col-md-3">
+            <button type="button" class="btn btn-outline-dark" onclick="añadirGrupo()">Crear</button>
+        </div>
+
         <br>
         <br>
+
+        <h3 class="col-12">Lista de grupos</h3>
+
         <ul class="list-group" id="listaGroup"></ul>
         <br>
         <br>
