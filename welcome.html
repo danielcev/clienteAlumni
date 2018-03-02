@@ -122,7 +122,7 @@
 
 	                            var imgRegistered = user.is_registered == 1 ? "<img width='30' src='img/success.png'/>" : "<img width='30' src='img/error.png'/>";
 	                            
-					    		$("#tableBody").append("<tr><th class='text-center' scope='row'>"+ user.email +"</th><td class='text-center'>"+ imgRegistered +"</td><td class='text-center'>"+ rol +"</td><td class='text-center'><input type='button' class='btn btn-outline-info' name='edit' id='edit' onclick='goToEditUser(" + user.id + ")' value='Cambiar'></td class='text-center'><td><input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-outline-danger' value='Borrar'></td></tr>");
+					    		$("#tableBody").append("<tr><th class='text-left' scope='row'>"+ user.email +"</th><td class='text-center'>"+ imgRegistered +"</td><td class='text-center'>"+ rol +"</td><td class='text-center'><input type='button' class='btn btn-outline-info' name='edit' id='edit' onclick='goToEditUser(" + user.id + ")' value='Cambiar'></td class='text-center'><td><input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-outline-danger' value='Borrar'></td></tr>");
 							});
 
 						}
@@ -180,7 +180,7 @@
 
 				    		var imgRegistered = user.is_registered == 1 ? "<img width='30' src='img/success.png'/>" : "<img width='30' src='img/error.png'/>";
 
-				    		$("#tableBody").append("<tr><th class='text-center' scope='row'>"+ user.email +"</th><td class='text-center'>"+ imgRegistered +"</td><td class='text-center'>"+ rol +"</td><td class='text-center'><input type='button' class='btn btn-outline-info' name='edit' id='edit' onclick='goToEditUser(" + user.id + ")' value='Cambiar'></td class='text-center'><td><input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-outline-danger' value='Borrar'></td></tr>");
+				    		$("#tableBody").append("<tr><th class='text-left' scope='row'>"+ user.email +"</th><td class='text-center'>"+ imgRegistered +"</td><td class='text-center'>"+ rol +"</td><td class='text-center'><input type='button' class='btn btn-outline-info' name='edit' id='edit' onclick='goToEditUser(" + user.id + ")' value='Cambiar'></td class='text-center'><td><input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-outline-danger' value='Borrar'></td></tr>");
                         
 						});
 
@@ -190,11 +190,8 @@
 			});
 
 	}
-    
-        
+	   
     function LlenarSelector(){
-        
-        console.log(token);
 
 		$.ajax({
 			    url: URL + "groups/groups.json",

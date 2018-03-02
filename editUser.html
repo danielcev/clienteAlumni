@@ -28,6 +28,7 @@
 	var url = "";
 
 	var groups = "";
+	var userGroups = "";
 
 	$.ajax({
 		    url: URL + "groups/groups.json",
@@ -77,6 +78,7 @@
         });
 
         getGroups();
+        
 
         $("#edit").click(function() {
 	  		var idRol = $("#selectRol").val();
@@ -160,6 +162,9 @@
 
 		    	$("#tableBodyGroups").html("");
 
+		    	userGroups = response.data.groups;
+		    	groupsNotUser();
+
 		    	if(response.data.groups.length > 1){
 		    		$.each(response.data.groups, function(i, group) {
 			    		$("#tableBodyGroups").append("<tr><th class='text-center'>"+ group.name +"</th><td class='text-center'><button class='btn btn-outline-danger' onclick='exitGroup(" + group.id +")')>Eliminar del grupo</button></td></tr>");
@@ -172,6 +177,27 @@
 
             }    
         });
+	}
+
+	function groupsNotUser(){
+
+		console.log(groups);
+		console.log(userGroups);
+
+		var arrayGroups = [];
+
+		$.each(groups, function(i, group) {
+
+			if(userGroups.indexOf(group) <= 0){
+
+				arrayGroups.push(group);
+			 
+			}
+		})
+
+		console.log(arrayGroups);
+
+		return arrayGroups;
 	}
 
 	function backToUsers(){
