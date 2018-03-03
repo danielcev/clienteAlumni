@@ -16,7 +16,7 @@
     if(sessionStorage.getItem('token') != null){
 			var token = sessionStorage.getItem('token');
 		}else{
-			window.location.href="index.php";
+			window.location.href="index.html";
 		}
 
     
@@ -36,14 +36,14 @@
 
                     console.log(response);
                     
-                $("#listaGroup").html("");
-             
-			   if($("#listaGroup").html() == ""){
-                 
-                  $.each(response.data.groups, function(i, group) { 
-                      
-                      $("#listaGroup").append("<li id='" + group.id + "'class='list-group-item'>" + group.name + " " + "<input type='button' name='delet' id='delet' onclick='deletGroup(" + group.id + ")' class='btn btn-outline-danger' value='Delete'>" + "</li>");
+                    $("#listaGroup").html("");
+                
+                    if($("#listaGroup").html() == ""){
+                    
+                        $.each(response.data.groups, function(i, group) { 
                         
+                            $("#listaGroup").append("<li id='" + group.id + "'class='list-group-item'>" + group.name + " " + "<input type='button' name='delet' id='delet' onclick='deletGroup(" + group.id + ")' class='btn btn-outline-danger' value='Delete'>" + "</li>");
+                            
                         })
                     }
                 }    
@@ -63,6 +63,7 @@
 			    dataType: 'json',
 			    success:function(response){    
                  listarGrupos();
+                 $("#name").val("");
                 }    
         });
         
@@ -90,7 +91,7 @@
 
     function salir(){
         sessionStorage.clear();
-        window.location.href = "index.php";
+        window.location.href = "index.html";
     }
     
     </script>
@@ -114,7 +115,7 @@
             </span>
         </h1>
 
-        <br> 
+        <hr>
 
         <h3 class="col-12">Añadir grupo</h3>
 
@@ -137,9 +138,11 @@
         <h3 class="col-12">Lista de grupos</h3>
 
         <ul class="list-group" id="listaGroup"></ul>
+
         <br>
         <br>
-        <button type="button" class="btn btn-primary" onclick="GoUsers()">Volver a usuarios</button>
+        <br>
+
     
 	</div>
 </body>

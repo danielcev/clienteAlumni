@@ -11,6 +11,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+
 	<!-- Archivo js de configuración -->
 	<script type="text/javascript" src="config.js"></script>
 
@@ -45,6 +47,8 @@
 
 	$(document).ready(function() {
 
+		
+
 		$.ajax({
 		    url: URL + "users/userbyid.json",
 		    type: "GET",
@@ -59,7 +63,7 @@
 
 		    	var selectRol = "<div class='input-group text-center col-md-12'><select class='custom-select' id='selectRol'><option selected>Elegir rol...</option><option value='1'>Admin</option><option value='2'>Profesor</option><option value='3'>Alumno</option></select><div class='input-group-append'><label class='input-group-text' for='inputGroupSelect02'>Roles</label></div></div>";
 
-		    	var selectGroups = "<div class='input-group text-center col-md-12'><select class='custom-select' id='selectGroups'><option selected>Elegir grupo...</option></select><button onclick='addGroup()' class='ml-3 btn btn-info'>Añadir a grupo</button></div>";
+		    	var selectGroups = "<div class='input-group text-center col-md-12'><select class='custom-select' id='selectGroups'><option selected>Elegir grupo...</option></select><button id='btnAddGroup' onclick='addGroup()' class='ml-3 btn btn-info'>Añadir a grupo</button></div>";
 
                 $("#tableBody").append("<tr><th class='text-center' scope='row'>Nombre de usuario</th><td class='text-center'>"+ response.data.user.username +"</td></tr>");
                 $("#tableBody").append("<tr><th class='text-center' scope='row'>Nombre</th><td class='text-center'>"+ response.data.user.name +"</td></tr>");
@@ -70,15 +74,10 @@
 
                 $("#selectRol").val(response.data.user.id_rol);
 
-            	$.each(groups, function(i, group) {
-			    		$("#selectGroups").append("<option value="+ group.id +">"+ group.name+"</option>");
-					});
+            	getGroupsUser();
 
             }    
         });
-
-        getGroups();
-        
 
         $("#edit").click(function() {
 	  		var idRol = $("#selectRol").val();
@@ -141,7 +140,7 @@
 			    success:function(response){
 			    	$("#resultError").hide();
 			    	
-			    	getGroups();
+			    	getGroupsUser();
 
 	            }    
         	});
@@ -149,7 +148,7 @@
 
 	}
 
-	function getGroups(){
+	function getGroupsUser(){
 		$.ajax({
 		    url: URL + "groups/groupsbyuser.json",
 		    type: "GET",
@@ -163,7 +162,6 @@
 		    	$("#tableBodyGroups").html("");
 
 		    	userGroups = response.data.groups;
-		    	groupsNotUser();
 
 		    	if(response.data.groups.length > 1){
 		    		$.each(response.data.groups, function(i, group) {
@@ -175,29 +173,47 @@
 					});
 		    	}
 
+				rechargeGroupsSelector();
+
             }    
         });
 	}
 
-	function groupsNotUser(){
+	function rechargeGroupsSelector(){
+	
+		var groupsShowInSelector = groupsNotUser();
 
-		console.log(groups);
-		console.log(userGroups);
+		if (groupsShowInSelector.length > 0){
+			$("#selectGroups").html("<option selected>Elegir grupo...</option>");
+			$.each(groupsShowInSelector, function(i, group) {
+				
+				$("#selectGroups").append("<option value="+ group.id +">"+ group.name+"</option>");
+			});
+			$("#selectGroups").prop('disabled', false);
+			$("#btnAddGroup").prop('disabled', false);
+		}else{
+			$("#selectGroups").prop('disabled', true);
+			$("#btnAddGroup").prop('disabled', true);
+		}
+	
+	}
+
+	function groupsNotUser(){
 
 		var arrayGroups = [];
 
-		$.each(groups, function(i, group) {
+		_.each(groups,function(objeto) {
 
-			if(userGroups.indexOf(group) <= 0){
+			var elemento_en_data2 = _.find(userGroups,objeto);
 
-				arrayGroups.push(group);
-			 
+			if(elemento_en_data2===undefined) {
+				arrayGroups.push(objeto);
 			}
-		})
 
-		console.log(arrayGroups);
+		});
 
 		return arrayGroups;
+	
 	}
 
 	function backToUsers(){
@@ -205,9 +221,6 @@
 	}
 
 	function exitGroup(id_group){
-
-
-
 		$.ajax({
 		    url: URL + "groups/unassign.json",
 		    type: "POST",
@@ -219,7 +232,7 @@
 		    dataType: 'json',
 		    success:function(response){
 
-		    	getGroups();
+		    	getGroupsUser();
 
             }    
         });
@@ -235,10 +248,7 @@
 
 		<br>
 
-
 		<h1>Modificar usuario</h1>
-
-		
 
 		<div class="container">
 
@@ -253,7 +263,6 @@
 		</div>
 
 		<hr>
-
 
 		<table class="table">
 			<thead class="thead-dark">
@@ -270,6 +279,9 @@
 			</tbody>
 		</table>
 
+		<p id="resultError" class="alert alert-danger" style="display:none"></p>
+		<p id="resultSuccess" class="alert alert-success" style="display:none"></p>
+
 		<table class="table">
 			<thead class="thead-dark">
 			<tr>
@@ -283,16 +295,9 @@
 			</tbody>
 		</table>
 
-		<button class="btn btn-outline-primary" id="edit">Guardar cambios</button>
-		<br>
-		<br>
-		
-
-		<br>
-		<br>
+		<button class="btn btn-outline-primary mb-5" id="edit">Guardar cambios</button>
         
-		<p id="resultError" class="alert alert-danger" style="display:none"></p>
-		<p id="resultSuccess" class="alert alert-success" style="display:none"></p>
+		
 
 	</div>
 
