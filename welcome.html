@@ -70,17 +70,17 @@
 			});
 		});
         
-        $("#busqueda").change(function() {
+        $('#busqueda').on('input', function() {
+    		console.log($("#busqueda").val() );
 
-            
-            if($("#busqueda").val() == ""){
+    		if($("#busqueda").val() == ""){
                 mostrarUsuarios();
             }else{
 	            $.ajax({
 				    url: URL + "users/user.json",
 				    type: "GET",
 	                data: {
-				    	'username' : busqueda
+				    	'username' : $("#busqueda").val() 
 				    },
 	                
 				    headers: { 'Authorization': token },
@@ -114,8 +114,7 @@
 	                                    rol = alumnos;
 	                                    break;
 	                                    
-	                            }
-								var registrado = user.is_registered == 1 ? alertRegistered : alertNotRegistered;
+	                            }					
 
 	                            var selected = user.rol;
 	                            var select = "<span><select id='" + user.id + "'><option value='1'>admin</option><option value='2' selected>profesores</option><option value='3'>alumnos</option></select></span>";
@@ -131,10 +130,12 @@
 				}); 
 
 			}  
-        });
+
+		});
         
         
 	});
+
 
 	function mostrarUsuarios(){
 
@@ -348,7 +349,7 @@
 				<span class="input-group-text" id="basic-addon1"><img width="20" src="img/search.png"/></span>
 			</div>
 
-			<input size="30" type="text" name="busqueda" class="form-control" id="busqueda" placeholder="Buscar usuario" aria-label="Username" aria-describedby="basic-addon1">
+			<input size="30" type="text" name="busqueda" class="form-control" id="busqueda" placeholder="Buscar usuario" aria-label="Username" aria-describedby="basic-addon1" onchange='search(this)'>
 		</div>
 
         <br>
