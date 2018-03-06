@@ -266,22 +266,22 @@
 <body>
 	<div class="main container">
 
-	<br>
+		<div class="col-12 row mt-3">
+		    <ol class="breadcrumb col-10">
+		        <li class="breadcrumb-item active" aria-current="page">Usuarios</li>
+					<li class="breadcrumb-item"><a href="grupos.html">Grupos</a></li>
+		        
+		    </ol>
+		    <div class="col-2">
+		        <button type="button" class="btn navbar-btn btn-outline-danger" onclick="salir()">Salir / Cerrar sesión</button>
+		    </div>
+		</div>
 
-	<nav aria-label="breadcrumb">
-		<ol class="breadcrumb">
-			<li class="breadcrumb-item active" aria-current="page">Usuarios</li>
-			<li class="breadcrumb-item"><a href="grupos.html">Grupos</a></li>
-		</ol>
-	</nav>
-	
-		<h1 class="col-12">Pre-Registro de nuevos usuarios
-			<span style="float:right;" class="text-right">
-				<button type="button" class="btn btn-outline-danger" onclick="salir()">Salir / Cerrar sesión</button>
-			</span>
-        </h1>
+		<h1 class="col-12">Usuarios</h1>
 
 		<hr>
+
+		<h3 class="col-12">Pre-Registro de nuevos usuarios</h3>
 
 		<form class="form-inline" id="formInsertUser">
 			<!-- Email -->
@@ -353,6 +353,8 @@
 		</div>
 
         <br>
+
+        <h3 class="col-12">Lista de usuarios</h3>
 
 		<table class="table">
 			<thead class="thead-dark">
