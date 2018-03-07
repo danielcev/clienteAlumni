@@ -13,6 +13,8 @@
 	<!-- Archivo js de configuración -->
 	<script type="text/javascript" src="config.js"></script>
 
+	<link rel="stylesheet" href="spinnerstyle.css">
+
 	<script type="text/javascript">
 
 		if(sessionStorage.getItem('token') != null){
@@ -182,6 +184,8 @@
 				    		var imgRegistered = user.is_registered == 1 ? "<img width='30' src='img/success.png'/>" : "<img width='30' src='img/error.png'/>";
 
 				    		$("#tableBody").append("<tr><th class='text-left' scope='row'>"+ user.email +"</th><td class='text-center'>"+ imgRegistered +"</td><td class='text-center'>"+ rol +"</td><td class='text-center'><input type='button' class='btn btn-outline-info' name='edit' id='edit' onclick='goToEditUser(" + user.id + ")' value='Cambiar'></td class='text-center'><td><input type='button' name='delet' id='delet' onclick='deletUser(" + user.id + ")' class='btn btn-outline-danger' value='Borrar'></td></tr>");
+
+				    		$(".sk-circle").hide();
                         
 						});
 
@@ -367,12 +371,27 @@
 				</tr>
 			</thead>
 			<tbody id="tableBody">
+
 				
 			</tbody>
 		</table>
+
+		<div class="sk-circle">
+			<div class="sk-circle1 sk-child"></div>
+			<div class="sk-circle2 sk-child"></div>
+			<div class="sk-circle3 sk-child"></div>
+			<div class="sk-circle4 sk-child"></div>
+			<div class="sk-circle5 sk-child"></div>
+			<div class="sk-circle6 sk-child"></div>
+			<div class="sk-circle7 sk-child"></div>
+			<div class="sk-circle8 sk-child"></div>
+			<div class="sk-circle9 sk-child"></div>
+			<div class="sk-circle10 sk-child"></div>
+			<div class="sk-circle11 sk-child"></div>
+			<div class="sk-circle12 sk-child"></div>
+		</div>
         
         <br>
-
         <br>
 		<br>
 		<br>

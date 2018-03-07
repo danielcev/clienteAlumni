@@ -11,6 +11,8 @@
 
     <!-- Archivo js de configuración -->
     <script type="text/javascript" src="config.js"></script>
+    <link rel="stylesheet" href="spinnerstyle.css">
+
     <script type="text/javascript">
         
     if(sessionStorage.getItem('token') != null){
@@ -43,6 +45,8 @@
                         $.each(response.data.groups, function(i, group) { 
                         
                             $("#listaGroup").append("<li id='" + group.id + "'class='list-group-item'>" + group.name + " " + "<input type='button' name='delet' id='delet' onclick='deletGroup(" + group.id + ")' class='btn btn-outline-danger' value='Delete'>" + "</li>");
+
+                            $(".sk-circle").hide();
                             
                         })
                     }
@@ -136,6 +140,21 @@
         <h3 class="col-12">Lista de grupos</h3>
 
         <ul class="list-group" id="listaGroup"></ul>
+
+        <div class="sk-circle">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+        </div>
 
         <br>
         <br>
