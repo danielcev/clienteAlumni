@@ -5,10 +5,10 @@
 	<meta charset="utf-8">
 
 	<!-- BOOTSTRAP -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 	<!-- jQuery library -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 	<!-- Archivo js de configuración -->
 	<script type="text/javascript" src="config.js">
@@ -49,7 +49,7 @@
 </head>
 <body>
 
-	<div class="main container">
+	<div class="main container mt-5">
 
 		<h1>Login</h1>
 
@@ -57,14 +57,30 @@
 
 		<hr>
 
-		<form>
-			<div class="form-group">
-				<input type="text" placeholder="email" name="email" id="email">
-				<input type="password" placeholder="password" name="password" id="password">
-				<input type="submit" class="btn btn-primary" name="submit" value="Entrar" id="submit">
+		<form class="form-inline col-12" id="formInsertUser">
+			<!-- Email -->
+			<div class="input-group col-md-4">
+
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1"><img width="20" src="img/email.png"/></span>
+				</div>
+
+				<input size="30" type="text" name="email" class="form-control" id="email" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
 			</div>
+
+			<!-- Password -->
+			<div class="input-group col-md-4">
+
+				<div class="input-group-prepend">
+					<span class="input-group-text" id="basic-addon1"><img width="20" src="img/key.png"/></span>
+				</div>
+
+				<input size="30" type="password" name="password" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+			</div>
+
+			<input type="submit" class="btn btn-primary" name="submit" value="Entrar" id="submit">
 		</form>
-        
+
 		<p id="result" class="alert alert-danger" style="display:none"></p>
 
 	</div>
