@@ -28,22 +28,28 @@
             var id_rol = $("#id_rol").val();
 			var password = $("#password").val();
 
-	        e.preventDefault();
-			$.get(URL + "users/login.json", 
-				{'email': email,
-				 'password': password}, 
-				function(response){
+			if(email == "" || name == ""){
+				$("#result").show();
+				$("#result").html("Falta por rellenar alguno de los dos campos");
+			}else{
+				e.preventDefault();
+				$.get(URL + "users/login.json", 
+					{'email': email,
+					 'password': password}, 
+					function(response){
 
+						if(response.code == "200"){
+							sessionStorage.setItem('token', response.data.token);
+	            			window.location.href = "welcome.html";
+						}else{
+							$("#result").show();
+							$("#result").html("No estás autorizado.");
+						}
+	        		}
+	        	);
+			}
 
-					if(response.code == "200"){
-						sessionStorage.setItem('token', response.data.token);
-            			window.location.href = "welcome.html";
-					}else{
-						$("#result").show();
-						$("#result").html(response.message);
-					}
-        		}
-        	);
+	        
 		});
 	});
 	</script>
@@ -80,8 +86,10 @@
 				<input size="30" type="password" name="password" class="form-control" id="password" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
 			</div>
 
-			<input type="submit" class="btn btn-primary" name="submit" value="Entrar" id="submit">
+			<input type="button" class="btn btn-primary" name="submit" value="Entrar" id="submit">
 		</form>
+
+		<br>
 
 		<p id="result" class="alert alert-danger" style="display:none"></p>
 
